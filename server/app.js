@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
   // Setting the player
   let player = {
     socket: socket.id,
-    username: "lola",
+    username: "",
   };
   socket.on("setUsername", (username) => {
     player.username = username;
@@ -29,8 +29,11 @@ io.on("connection", (socket) => {
   });
 
   // Setting board
-  let gameBoard = Array(9).fill("");
+  socket.on('board', (board) => {
+    console.log(board);
+  })
   let currentPlayer = "X";
+  socket.emit('current', currentPlayer)
   // Winning combos
   const checkWinner = (board) => {
     const winningCombos = [
@@ -66,6 +69,7 @@ io.on("connection", (socket) => {
     if (gameBoard[index] === "") {
       gameBoard[index] = currentPlayer;
       currentPlayer = currentPlayer === "X" ? "O" : "X";
+      io.emit('turn', currentPlayer)
       io.emit("boardState", gameBoard);
 
       const winner = checkWinner(gameBoard);
