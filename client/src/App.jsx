@@ -1,4 +1,5 @@
 import io from 'socket.io-client'
+import { Board } from './components/Board';
 
 const socket = io('/')
 
@@ -12,7 +13,7 @@ function App() {
   socket.emit('test2')
 
   return (
-    <div>App</div>
+    <Board></Board>
   )
 }
 
