@@ -1,4 +1,4 @@
-## TIC TAC TOE Proyect
+## TIC TAC TOE Proyect 
 
 This is a web application using ReactJS (frontend), ExpressJS as NodeJS framework (backend) and using Socket.io (webSocket).
 
