@@ -5,6 +5,10 @@ export function Board() {
   const [tiles, setTiles] = useState(Array(9).fill(null));
   const [shift, setShift] = useState(true);
 
+
+  // la funcion title cumple la funcion de actualizar cada TILE (casilla) del juego
+  // por medio de una nueva copia del array TILES, tambien verifica si el tile que 
+  // se quiere actualizar ya fue actualizado, o, si el juego ya termino. 
   const tileClick = (i) => {
     if (calculateWinner(tiles) || tiles[i]) {
       return;
