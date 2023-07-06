@@ -17,72 +17,72 @@ io.on("connection", (socket) => {
     console.log(data);
   })
 
-  // // Setting the player
-  // let player = {
-  //   socket: socket.id,
-  //   username: "lola",
-  // };
-  // socket.on("setUsername", (username) => {
-  //   player.username = username;
-  //   console.log(`Username: ${username}`);
-  //   io.emit("player", player);
-  // });
+  // Setting the player
+  let player = {
+    socket: socket.id,
+    username: "lola",
+  };
+  socket.on("setUsername", (username) => {
+    player.username = username;
+    console.log(`Username: ${username}`);
+    io.emit("player", player);
+  });
 
-  // // Setting board
-  // let gameBoard = Array(9).fill("");
-  // let currentPlayer = "X";
-  // // Winning combos
-  // const checkWinner = (board) => {
-  //   const winningCombos = [
-  //     // Horizontal
-  //     [0, 1, 2],
-  //     [3, 4, 5],
-  //     [6, 7, 8],
-  //     // Verticals
-  //     [0, 3, 6],
-  //     [1, 4, 7],
-  //     [2, 5, 5],
-  //     // Diagonals
-  //     [0, 4, 5],
-  //     [2, 4, 6],
-  //   ];
+  // Setting board
+  let gameBoard = Array(9).fill("");
+  let currentPlayer = "X";
+  // Winning combos
+  const checkWinner = (board) => {
+    const winningCombos = [
+      // Horizontal
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      // Verticals
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 5],
+      // Diagonals
+      [0, 4, 5],
+      [2, 4, 6],
+    ];
 
-  //   for (const combo of winningCombos) {
-  //     const [a, b, c] = combo;
-  //     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-  //       return board[a];
-  //     }
-  //   }
-  //   return null;
-  // };
+    for (const combo of winningCombos) {
+      const [a, b, c] = combo;
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        return board[a];
+      }
+    }
+    return null;
+  };
 
-  // const isBoardFull = (board) => {
-  //   return board.every((cell) => cell !== " ");
-  // };
+  const isBoardFull = (board) => {
+    return board.every((cell) => cell !== " ");
+  };
 
-  // socket.emit("board", gameBoard);
-  // let message = "Draw";
-  // socket.on("move", (index) => {
-  //   if (gameBoard[index] === "") {
-  //     gameBoard[index] = currentPlayer;
-  //     currentPlayer = currentPlayer === "X" ? "O" : "X";
-  //     io.emit("boardState", gameBoard);
+  socket.emit("board", gameBoard);
+  let message = "Draw";
+  socket.on("move", (index) => {
+    if (gameBoard[index] === "") {
+      gameBoard[index] = currentPlayer;
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+      io.emit("boardState", gameBoard);
 
-  //     const winner = checkWinner(gameBoard);
-  //     if (winner) {
-  //       io.emit("gameEnd", { result: "win", winner });
-  //     } else if (isBoardFull(gameBoard)) {
-  //       io.emit("gameEnd", { result: "tie", message });
-  //     }
-  //   }
-  // });
+      const winner = checkWinner(gameBoard);
+      if (winner) {
+        io.emit("gameEnd", { result: "win", winner });
+      } else if (isBoardFull(gameBoard)) {
+        io.emit("gameEnd", { result: "tie", message });
+      }
+    }
+  });
 
-  // // Event for reset
-  // socket.on("reset", () => {
-  //   gameBoard = Array(9).fill("");
-  //   currentPlayer = "X";
-  //   io.emit("boardState", gameBoard);
-  // });
+  // Event for reset
+  socket.on("reset", () => {
+    gameBoard = Array(9).fill("");
+    currentPlayer = "X";
+    io.emit("boardState", gameBoard);
+  });
 });
 
 app.set("port", 3000);
