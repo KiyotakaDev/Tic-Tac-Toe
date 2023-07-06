@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import io from 'socket.io-client'
+import { Board } from './components/Board';
 
 const socket = io('http://localhost:3000')
 
 function App() {
-  const [tiles, settiles] = useState(Array(9).fill('Toy vivo'))
+  // listening query from back
+  socket.on('test', () => {
+    console.log('test');
+  })
 
   // sending query from front
-  socket.emit('board', tiles)
+  socket.emit('test2')
 
   return (
-    <div>App</div>
+    <Board></Board>
   )
 }
 
