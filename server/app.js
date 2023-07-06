@@ -10,11 +10,11 @@ io.on('connection', socket => {
   console.log('Client connected', socket.id);
 
   // Emmiting query for forntend
-  socket.emit('ping')
+  socket.emit('test')
 
   // Listening frontend query
-  socket.on('pong', () => {
-    console.log('pong');
+  socket.on('test2', () => {
+    console.log('test 2');
   })
 
 })
